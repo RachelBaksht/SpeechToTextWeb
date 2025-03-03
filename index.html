@@ -22,14 +22,16 @@
         button:hover {
             background-color: #45a049;
         }
-        #output {
+        textarea {
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 18px;
             border: 1px solid #ccc;
             padding: 10px;
-            min-height: 50px;
             width: 80%;
-            display: inline-block;
+            min-height: 100px;
+            display: block;
+            direction: rtl;
+            text-align: right;
         }
     </style>
 </head>
@@ -39,8 +41,8 @@
     <!-- כפתור שמפעיל את ההקלטה באפליקציה -->
     <button onclick="startRecording()">🔴 התחל הקלטה</button>
 
-    <!-- תיבת טקסט להצגת התוצאה -->
-    <div id="output">כאן יופיע הטקסט המתומלל...</div>
+    <!-- תיבת טקסט ניתנת לעריכה -->
+    <textarea id="output" placeholder="כאן יופיע הטקסט המתומלל..."></textarea>
 
     <script>
         function startRecording() {
@@ -52,7 +54,7 @@
         }
 
         function updateText(text) {
-            document.getElementById("output").innerText = text;
+            document.getElementById("output").value = text;
         }
     </script>
 </body>
