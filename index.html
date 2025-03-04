@@ -46,11 +46,7 @@
 
     <script>
         function startRecording() {
-            if (window.Android) {
-                window.Android.startRecording(); // קריאה לפונקציה ב-Java של האפליקציה
-            } else {
-                alert("החיבור לאפליקציה לא זמין.");
-            }
+            window.location.href = "myapp://record";
         }
 
         function updateText(text) {
