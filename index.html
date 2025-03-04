@@ -46,7 +46,11 @@
 
     <script>
         function startRecording() {
-            window.location.href = "myapp://record";
+           // window.location.href = "myapp://record";
+            fetch("http://localhost:8080/start_recording")
+            .then(response => response.text())
+            .then(data => document.getElementById("status").innerText = "מצב: " + data)
+            .catch(error => console.error("שגיאה:", error))
         }
 
         function updateText(text) {
