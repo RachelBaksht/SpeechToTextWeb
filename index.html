@@ -3,58 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הקלטה והמרה לטקסט</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 8px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        textarea {
-            margin-top: 20px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 80%;
-            min-height: 100px;
-            display: block;
-            direction: rtl;
-            text-align: right;
-        }
-    </style>
+    <title>הקלטת קול</title>
 </head>
 <body>
-    <h2>מערכת הקלטה והמרה לטקסט</h2>
+    <h2>מצב הקלטה:</h2>
+    <p id="status">ממתין...</p>
     
-    <!-- כפתור שמפעיל את ההקלטה באפליקציה -->
-    <button onclick="startRecording()">🔴 התחל הקלטה</button>
+    <h2>תמלול:</h2>
+    <p id="transcription">---</p>
 
-    <!-- תיבת טקסט ניתנת לעריכה -->
-    <textarea id="output" placeholder="כאן יופיע הטקסט המתומלל..."></textarea>
+    <button onclick="startRecording()">🔴 התחל הקלטה</button>
+    <button onclick="stopRecording()">⏹️ עצור הקלטה</button>
 
     <script>
         function startRecording() {
-           // window.location.href = "myapp://record";
-            fetch("http://localhost:8080/start_recording")
-            .then(response => response.text())
-            .then(data => document.getElementById("status").innerText = "מצב: " + data)
-            .catch(error => console.error("שגיאה:", error))
+            fetch("http://localhost:8080/start")
+                .then(() => document.getElementById("status").innerText = "מקליט...");
         }
 
-        function updateText(text) {
-            document.getElementById("output").value = text;
+        function stopRecording() {
+            fetch("http://localhost:8080/stop")
+                .then(() => {
+                    document.getElementById("status").innerText = "עוצר הקלטה...";
+                    setTimeout(getTranscription, 3000);  // זמן המתנה לתמלול
+                });
+        }
+
+        function getTranscription() {
+            fetch("http://localhost:8080/transcription")
+                .then(response => response.text())
+                .then(text => document.getElementById("transcription").innerText = text);
         }
     </script>
 </body>
